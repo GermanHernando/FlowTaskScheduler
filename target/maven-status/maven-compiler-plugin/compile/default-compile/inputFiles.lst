@@ -1,0 +1,10 @@
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\app\App.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\enums\Permiso.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\exceptions\QuantityCharactersException.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\exceptions\UserEmailException.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\exceptions\UserException.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\exceptions\UserPasswordException.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\models\Gerente.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\models\Tarea.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\models\Usuario.java
+C:\eclipse - workspace\taskscheduler\src\main\java\ar\task\scheduler\models\validators\UsuarioValidator.java

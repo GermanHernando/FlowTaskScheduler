@@ -1,0 +1,8 @@
+ar\task\scheduler\models\Tarea.class
+ar\task\scheduler\exceptions\UserEmailException.class
+ar\task\scheduler\app\App.class
+ar\task\scheduler\enums\Permiso.class
+ar\task\scheduler\exceptions\UserException.class
+ar\task\scheduler\exceptions\QuantityCharactersException.class
+ar\task\scheduler\exceptions\UserPasswordException.class
+ar\task\scheduler\models\validators\UsuarioValidator.class

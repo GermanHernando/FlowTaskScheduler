@@ -1,19 +1,21 @@
 package ar.task.scheduler.models;
 
-import ar.task.scheduler.interfaces.Persistible;
 import ar.task.scheduler.models.validators.CategoriaValidator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-public class Categoria implements Persistible{
+@Entity
+@Table(name = "CATEGORIAS")
+public class Categoria extends Persistible{
 	
-	private Long id;
+	@Column(name = "NOMBRE")
 	private String nombre;
+	
+	public Categoria() {}
 	
 	public Categoria(String nombre) {
 		this.setNombre(nombre);
-	}
-
-	public Long getId() {
-		return id;
 	}
 	
 	public String getNombre() {

@@ -7,22 +7,36 @@ import java.util.List;
 import ar.task.scheduler.enums.EstadoTarea;
 import ar.task.scheduler.exceptions.ExistingAddException;
 import ar.task.scheduler.exceptions.UnexistingRemoveException;
-import ar.task.scheduler.interfaces.Persistible;
 import ar.task.scheduler.models.validators.TareaValidator;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 
-public class Tarea implements Persistible{
+@Entity
+@Table(name = "TAREAS")
+public class Tarea extends Persistible{
 
-	private Long id;
+	@Column(name = "TITULO")
 	private String titulo;
+	@Column(name = "DESCRIPCION")
 	private String descripcion;
+	@Column(name = "CATEGORIA_ID")
 	private Categoria categoria;
+	@Column(name = "FECHA_ASIGNADA")
 	private LocalDateTime fechaAsignada;
+	@Column(name = "ESTADO_ID")
 	private EstadoTarea estado;
+	@ElementCollection(targetClass = Tarea.class)
+	@CollectionTable(name = "USUARIOS_TAREAS", joinColumns = @JoinColumn(name = "TAREA_ID"))
+	@Column(name = "USUARIO_ID")
 	private List<Usuario>responsables;
 	
 	Tarea() {}
 	
-	//Admin guardar tareas
+	//Admin guarda estas tareas
 	public Tarea(String titulo, String descripcion, Categoria categoria) {
 		this.setTitulo(titulo);
 		this.setDescripcion(descripcion);
@@ -52,10 +66,6 @@ public class Tarea implements Persistible{
 	
 	public void setFechaAsignada(LocalDateTime fechaAsignada) {
 		this.fechaAsignada = TareaValidator.fechaValidator(fechaAsignada);
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public String getTitulo() {

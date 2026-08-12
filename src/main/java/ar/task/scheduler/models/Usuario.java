@@ -12,7 +12,6 @@ import ar.task.scheduler.exceptions.QuantityCharactersException;
 import ar.task.scheduler.exceptions.UnexistingRemoveException;
 import ar.task.scheduler.exceptions.UserEmailException;
 import ar.task.scheduler.exceptions.UserPasswordException;
-import ar.task.scheduler.interfaces.Persistible;
 import ar.task.scheduler.models.validators.UsuarioValidator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
@@ -31,7 +30,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "USUARIOS")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario implements Persistible {
+public class Usuario extends Persistible {
 
 	@Id
 	@Column(name = "ID")
@@ -51,26 +50,32 @@ public class Usuario implements Persistible {
 	@Column(name = "PERMISO_ID")
 	private List<Permiso> permisos;
 	@ElementCollection(targetClass = Tarea.class)
-	@CollectionTable(name = "TAREAS_USUARIOS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
+	@CollectionTable(name = "LISTAS_ADMINISTRADORES_Y_USUARIOS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
+	@Column(name = "ADMIN_ID")
+	private List<Administrador> administradores;
+	@ElementCollection(targetClass = Tarea.class)
+	@CollectionTable(name = "USUARIOS_TAREAS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
 	@Column(name = "TAREA_ID")
 	private List<Tarea> tareas;
 
-	 Usuario() {}
-	
-	//Para guardar usuarios para envio de tareas
+	Usuario() {
+	}
+
+	// Para guardar usuarios para envio de tareas
 	public Usuario(String email, String nombre, String apellido) {
 		this.setEmail(email);
 		this.setNombre(nombre);
 		this.setApellido(apellido);
-	}
-
-	//Para usuarios Admin
-	public Usuario(String email, String contrasenia, String nombre, String apellido) {
-		this(email,nombre,apellido);
-		this.setContrasenia(contrasenia);
 		this.permisos = new ArrayList<Permiso>();
 		this.permisos.add(Permiso.EMPLEADO);
 		this.tareas = new ArrayList<Tarea>();
+		this.administradores = new ArrayList<Administrador>();
+	}
+
+	// Para usuarios Admin
+	public Usuario(String email, String contrasenia, String nombre, String apellido) {
+		this(email, nombre, apellido);
+		this.setContrasenia(contrasenia);
 	}
 
 	protected void convertirEnAdmin() {
@@ -100,10 +105,6 @@ public class Usuario implements Persistible {
 	public boolean mismoEmail(String email2) {
 		return this.email.equals(email2);
 	}
-	
-	public Long getId() {
-		return id;
-	}
 
 	public String getEmail() {
 		return email;
@@ -120,33 +121,46 @@ public class Usuario implements Persistible {
 	public String getApellido() {
 		return apellido;
 	}
-	
-	
-	
-	public void agregarTarea(String titulo,String descripcion, Categoria categoria) {
-		if(buscarTarea(titulo)!=null) {
+
+	public void agregarTarea(String titulo, String descripcion, Categoria categoria) {
+		if (buscarTarea(titulo) != null) {
 			throw new ExistingAddException();
 		}
-		this.tareas.add(new Tarea(titulo,descripcion,categoria));			
-	}
-	
-	
-	private Tarea buscarTarea(String titulo) {
-	    return tareas.stream()
-	            .filter(tarea -> tarea.mismoTitulo(titulo))
-	            .findFirst()
-	            .orElse(null);
+		this.tareas.add(new Tarea(titulo, descripcion, categoria));
 	}
 
+	private Tarea buscarTarea(String titulo) {
+		return tareas.stream().filter(tarea -> tarea.mismoTitulo(titulo)).findFirst().orElse(null);
+	}
 
 	public void eliminarTarea(String titulo) {
 		Tarea user = this.buscarTarea(titulo);
-		if (user==null) {
+		if (user == null) {
 			throw new UnexistingRemoveException();
 		}
 		tareas.remove(user);
 	}
 	
+	public void agregarAdmin() {
+		if (buscarAdminId() != null) {
+			throw new ExistingAddException();
+		}
+		this.administradores.add(new Administrador(this.email,this.nombre,this.apellido));
+	}
+	
+
+	private Administrador buscarAdminId() {
+		return administradores.stream().filter(admin -> admin.mismoId(this.id)).findFirst().orElse(null);
+	}
+	
+	
+	public void eliminarAdmin() {
+		Administrador admin = this.buscarAdminId();
+		if (admin == null) {
+			throw new UnexistingRemoveException();
+		}
+		administradores.remove(admin);
+	}
 	
 
 	public List<GrantedAuthority> coleccionAutorizaciones() {
@@ -156,8 +170,5 @@ public class Usuario implements Persistible {
 		}
 		return credenciales;
 	}
-
-
-	
 
 }

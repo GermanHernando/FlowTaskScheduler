@@ -7,13 +7,21 @@ APELLIDO varchar (70) not null,
 PRIMARY KEY(ID)
 );
 
-
 create table ADMINISTRADORES(
 ID bigint not null,
 PRIMARY KEY(ID)
 );
 
 alter table ADMINISTRADORES add constraint ADM$USR foreign key (ID) references USUARIOS(ID);
+
+create table LISTAS_ADMINISTRADORES_Y_USUARIOS(
+ADMIN_ID bigint not null,
+USUARIO_ID bigint not null,
+PRIMARY KEY(ADMIN_ID,USUARIO_ID)
+);
+alter table LISTAS_ADMINISTRADORES_Y_USUARIOS add constraint LAYU$USR foreign key (USUARIO_ID) references USUARIOS(ID);
+alter table LISTAS_ADMINISTRADORES_Y_USUARIOS add constraint LAYU$ADM foreign key (ADMIN_ID) references ADMINISTRADORES(ID);
+
 
 create table CATEGORIAS(
 ID bigint not null AUTO_INCREMENT,
@@ -41,13 +49,21 @@ alter table TAREAS add constraint TAR$CAT foreign key (CATEGORIA_ID) references 
 alter table TAREAS add constraint TAR$EST foreign key (ESTADO_ID) references ESTADOS_TAREAS(ID);
 
 create table USUARIOS_TAREAS(
-USUARIO_ID bigint not null,
-TAREA_ID bigint not null,
+USUARIO_ID bigint not null,  
+TAREA_ID bigint not null, 
 PRIMARY KEY(USUARIO_ID,TAREA_ID)
 );
 alter table USUARIOS_TAREAS add constraint USRTAR$USR foreign key (USUARIO_ID) references USUARIOS(ID);
 alter table USUARIOS_TAREAS add constraint USRTAR$TAR foreign key (TAREA_ID) references TAREAS(ID);
 
+
+create table TAREAS_GUARDADAS_ADMIN(
+ADMIN_ID bigint not null,
+TAREA_ID bigint not null,
+PRIMARY KEY(ADMIN_ID,TAREA_ID)
+);
+alter table TAREAS_GUARDADAS_ADMIN add constraint TGA$ADM foreign key (ADMIN_ID) references ADMINISTRADORES(ID);
+alter table TAREAS_GUARDADAS_ADMIN add constraint TGA$TAR foreign key (TAREA_ID) references TAREAS(ID);
 
 create table PERMISOS(
 ID int not null,

@@ -19,9 +19,6 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -32,10 +29,6 @@ import jakarta.persistence.Table;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario extends Persistible {
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	private String email;
 	@Column(name = "CONTRASENIA")
@@ -150,7 +143,7 @@ public class Usuario extends Persistible {
 	
 
 	private Administrador buscarAdminId() {
-		return administradores.stream().filter(admin -> admin.mismoId(this.id)).findFirst().orElse(null);
+		return administradores.stream().filter(admin -> admin.mismoId(getId())).findFirst().orElse(null);
 	}
 	
 	

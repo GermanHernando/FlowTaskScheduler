@@ -1,5 +1,6 @@
 package ar.task.scheduler.models;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,11 +89,6 @@ public class Tarea extends Persistible{
 		return estado;
 	}
 	
-	public boolean mismoTitulo(String titulo) {
-		return this.titulo.equals(titulo);
-	}
-	
-	
 	public void cambiarEstado() {
 		this.estado = estado == EstadoTarea.PENDIENTE? EstadoTarea.COMPLETADA:EstadoTarea.PENDIENTE;
 	}
@@ -101,6 +97,28 @@ public class Tarea extends Persistible{
 		this.estado = EstadoTarea.COMPLETADA;
 	}
 	
+	public boolean estaVencida() {
+		return this.fechaAsignada.toLocalDate().isBefore(LocalDate.now());
+	}
+	
+	public boolean mismoTitulo(String titulo) {
+		return this.titulo.equals(titulo);
+	}
+
+	public boolean mismaCategoria(Categoria categoria) {
+		return this.categoria.equals(categoria);
+	}
+	
+	public boolean mismaFecha(LocalDateTime fechaNueva) {
+		return this.fechaAsignada.isEqual(fechaNueva);
+	}
+	
+
+	public boolean mismaTarea(Tarea tarea) {
+		return this.mismoTitulo(tarea.getTitulo())
+				&& this.mismaCategoria(tarea.getCategoria()) 
+				&& this.mismaFecha(tarea.getFechaAsignada());
+	}
 	
 	public void agregarResponsable(Usuario responsable) {
 		if(responsable!=null) {

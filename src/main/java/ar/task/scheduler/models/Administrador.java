@@ -92,6 +92,14 @@ public class Administrador extends Usuario {
 	}
 	
 	
+	public void agreagarTareaAUsuario(Usuario usuario, Tarea tarea) {
+		Usuario user = this.buscarUsuario(usuario.getEmail());
+		if(user!=null) {
+			user.agregarTarea(tarea);
+			tarea.agregarResponsable(user);
+		}
+	}
+	
 	
 	
 	

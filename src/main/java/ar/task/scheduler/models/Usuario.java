@@ -1,6 +1,8 @@
 package ar.task.scheduler.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -54,7 +56,7 @@ public class Usuario extends Persistible {
 	Usuario() {
 	}
 
-	// Para guardar usuarios para envio de tareas
+	// Guardar usuarios para envio de tareas
 	public Usuario(String email, String nombre, String apellido) {
 		this.setEmail(email);
 		this.setNombre(nombre);
@@ -65,7 +67,7 @@ public class Usuario extends Persistible {
 		this.administradores = new ArrayList<Administrador>();
 	}
 
-	// Para usuarios Admin
+	// Para construir usuarios Admin
 	public Usuario(String email, String contrasenia, String nombre, String apellido) {
 		this(email, nombre, apellido);
 		this.setContrasenia(contrasenia);
@@ -114,24 +116,39 @@ public class Usuario extends Persistible {
 	public String getApellido() {
 		return apellido;
 	}
+	
+	public List<Tarea> getTareasUnmodifiableList() {
+	    return Collections.unmodifiableList(this.tareas);
+	}
+	
+	public void agregarTarea(Tarea tarea) {
+		if(tarea!=null) {
+			if(tarea.getFechaAsignada()!=null) {
+				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(), tarea.getFechaAsignada());			
+			}else {
+				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(), LocalDateTime.now());
+			}
+		}
+	}
 
-	public void agregarTarea(String titulo, String descripcion, Categoria categoria) {
-		if (buscarTarea(titulo) != null) {
+	public void agregarTarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
+		Tarea tarea = buscarTarea(titulo);
+		if (tarea!= null && tarea.mismaFecha(fechaAsignada) && tarea.mismaCategoria(categoria)) {
 			throw new ExistingAddException();
 		}
-		this.tareas.add(new Tarea(titulo, descripcion, categoria));
+		this.tareas.add(new Tarea(titulo, descripcion, categoria, fechaAsignada));
 	}
 
 	private Tarea buscarTarea(String titulo) {
 		return tareas.stream().filter(tarea -> tarea.mismoTitulo(titulo)).findFirst().orElse(null);
 	}
 
-	public void eliminarTarea(String titulo) {
-		Tarea user = this.buscarTarea(titulo);
-		if (user == null) {
-			throw new UnexistingRemoveException();
-		}
-		tareas.remove(user);
+	public void eliminarTarea(Tarea tarea) {
+	    boolean existe = this.tareas.stream().anyMatch(t -> t.mismaTarea(tarea));
+	    if (!existe) {
+	        throw new UnexistingRemoveException();
+	    }
+	    this.tareas.removeIf(t -> t.mismaTarea(tarea));
 	}
 	
 	public void agregarAdmin() {
@@ -163,5 +180,7 @@ public class Usuario extends Persistible {
 		}
 		return credenciales;
 	}
+
+	
 
 }

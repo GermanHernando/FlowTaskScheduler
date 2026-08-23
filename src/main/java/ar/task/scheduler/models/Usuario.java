@@ -2,7 +2,6 @@ package ar.task.scheduler.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +14,7 @@ import ar.task.scheduler.exceptions.UnexistingRemoveException;
 import ar.task.scheduler.exceptions.UserEmailException;
 import ar.task.scheduler.exceptions.UserPasswordException;
 import ar.task.scheduler.models.validators.UsuarioValidator;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -24,6 +24,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,11 +45,11 @@ public class Usuario extends Persistible {
 	@CollectionTable(name = "PERMISOS_USUARIOS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
 	@Column(name = "PERMISO_ID")
 	private List<Permiso> permisos;
-	@ElementCollection(targetClass = Tarea.class)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@CollectionTable(name = "LISTAS_ADMINISTRADORES_Y_USUARIOS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
 	@Column(name = "ADMIN_ID")
 	private List<Administrador> administradores;
-	@ElementCollection(targetClass = Tarea.class)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@CollectionTable(name = "USUARIOS_TAREAS", joinColumns = @JoinColumn(name = "USUARIO_ID"))
 	@Column(name = "TAREA_ID")
 	private List<Tarea> tareas;
@@ -61,10 +62,10 @@ public class Usuario extends Persistible {
 		this.setEmail(email);
 		this.setNombre(nombre);
 		this.setApellido(apellido);
-		this.permisos = new ArrayList<Permiso>();
-		this.permisos.add(Permiso.EMPLEADO);
 		this.tareas = new ArrayList<Tarea>();
 		this.administradores = new ArrayList<Administrador>();
+		this.permisos = new ArrayList<Permiso>();
+		this.permisos.add(Permiso.EMPLEADO);
 	}
 
 	// Para construir usuarios Admin
@@ -117,40 +118,41 @@ public class Usuario extends Persistible {
 		return apellido;
 	}
 	
-	public List<Tarea> getTareasUnmodifiableList() {
-	    return Collections.unmodifiableList(this.tareas);
+	
+	public boolean tieneLaTarea(Tarea tarea) {
+	    return this.tareas.stream().anyMatch(t -> tarea.mismaTarea(tarea));
 	}
 	
+	//Agrega la Tarea para usuario, donde si o si, tiene que tener la tarea una fecha
 	public void agregarTarea(Tarea tarea) {
 		if(tarea!=null) {
 			if(tarea.getFechaAsignada()!=null) {
 				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(), tarea.getFechaAsignada());			
 			}else {
-				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(), LocalDateTime.now());
+				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(),LocalDateTime.now());
 			}
 		}
 	}
 
-	public void agregarTarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
-		Tarea tarea = buscarTarea(titulo);
-		if (tarea!= null && tarea.mismaFecha(fechaAsignada) && tarea.mismaCategoria(categoria)) {
+	private void agregarTarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
+		Tarea tarea = new Tarea(titulo,descripcion,categoria,fechaAsignada);
+		boolean existe = this.tieneLaTarea(tarea);
+		if (existe) {
 			throw new ExistingAddException();
 		}
 		this.tareas.add(new Tarea(titulo, descripcion, categoria, fechaAsignada));
 	}
 
-	private Tarea buscarTarea(String titulo) {
-		return tareas.stream().filter(tarea -> tarea.mismoTitulo(titulo)).findFirst().orElse(null);
-	}
 
 	public void eliminarTarea(Tarea tarea) {
-	    boolean existe = this.tareas.stream().anyMatch(t -> t.mismaTarea(tarea));
+	    boolean existe = this.tieneLaTarea(tarea);
 	    if (!existe) {
 	        throw new UnexistingRemoveException();
 	    }
-	    this.tareas.removeIf(t -> t.mismaTarea(tarea));
+	    this.tareas.remove(tarea);
 	}
 	
+	//Se invoca desde la clase Administrador
 	public void agregarAdmin() {
 		if (buscarAdminId() != null) {
 			throw new ExistingAddException();
@@ -163,7 +165,7 @@ public class Usuario extends Persistible {
 		return administradores.stream().filter(admin -> admin.mismoId(getId())).findFirst().orElse(null);
 	}
 	
-	
+	//Se invoca desde la clase Administrador
 	public void eliminarAdmin() {
 		Administrador admin = this.buscarAdminId();
 		if (admin == null) {

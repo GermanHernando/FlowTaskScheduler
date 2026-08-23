@@ -2,12 +2,12 @@ package ar.task.scheduler.services;
 
 import ar.task.scheduler.models.Usuario;
 
-public interface UsuarioService {
+public interface UsuarioService <T extends Usuario> {
 
-	public Usuario buscarUsuario(String email);
+	public T buscarUsuario(String email);
 	
-	public void guardarUsuario(Usuario admin);
+	public void guardarUsuario(T usuario);
 	
-	public void eliminarUsuario(Usuario admin);
+	public void eliminarUsuario(T usuario);
 	
 }

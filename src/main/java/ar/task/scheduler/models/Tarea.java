@@ -9,11 +9,12 @@ import ar.task.scheduler.enums.EstadoTarea;
 import ar.task.scheduler.exceptions.ExistingAddException;
 import ar.task.scheduler.exceptions.UnexistingRemoveException;
 import ar.task.scheduler.models.validators.TareaValidator;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,7 +31,7 @@ public class Tarea extends Persistible{
 	private LocalDateTime fechaAsignada;
 	@Column(name = "ESTADO_ID")
 	private EstadoTarea estado;
-	@ElementCollection(targetClass = Tarea.class)
+	@ManyToMany(cascade = CascadeType.ALL) 
 	@CollectionTable(name = "USUARIOS_TAREAS", joinColumns = @JoinColumn(name = "TAREA_ID"))
 	@Column(name = "USUARIO_ID")
 	private List<Usuario>responsables;
@@ -113,11 +114,18 @@ public class Tarea extends Persistible{
 		return this.fechaAsignada.isEqual(fechaNueva);
 	}
 	
+	public boolean mismaPlantilla(Tarea tarea) {
+		return this.mismoTitulo(tarea.getTitulo())
+				&& this.mismaCategoria(tarea.getCategoria());
+	}
 
 	public boolean mismaTarea(Tarea tarea) {
-		return this.mismoTitulo(tarea.getTitulo())
-				&& this.mismaCategoria(tarea.getCategoria()) 
+		return this.mismaPlantilla(tarea)
 				&& this.mismaFecha(tarea.getFechaAsignada());
+	}
+	
+	public Tarea generarPlantilla() {
+		return new Tarea(this.titulo,this.descripcion,this.categoria);
 	}
 	
 	public void agregarResponsable(Usuario responsable) {

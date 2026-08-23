@@ -7,7 +7,10 @@ public class UserNotFoundException extends ListException {
 
 	public UserNotFoundException() {
 		super(USER_NOT_FOUND_EXEPTION);
-		
+	}
+	
+	public UserNotFoundException(String mensajeEspecifico) {
+		super(mensajeEspecifico);
 	}
 
 }

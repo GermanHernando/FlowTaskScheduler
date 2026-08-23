@@ -36,7 +36,8 @@ public class TareaServiceImp implements TareaService{
 
 	@Override
 	public void eliminarTarea(Tarea tarea) {
-		if(tarea!=null && buscarTarea(tarea.getTitulo())==null) {
+		List<Tarea> listaTareas = this.buscarTarea(tarea.getTitulo());
+		if(tarea!=null && !esTareaExistente(listaTareas, tarea)) {
 			throw new UnexistingRemoveException();
 		}
 		this.tareaRepository.delete(tarea);

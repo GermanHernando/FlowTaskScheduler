@@ -9,7 +9,7 @@ import ar.task.scheduler.models.Usuario;
 public interface UsuarioRepository <T extends Usuario>extends JpaRepository<T, Long>{
 
 	
-	public Usuario findByEmail (String email);
+	public T findByEmail (String email);
 	
 	
 	

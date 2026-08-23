@@ -12,6 +12,7 @@ public class TareaValidator {
 	private static final String MSG_TITLE = "El Titulo ";
 	private static final String MSG_DESCRIPTION = "La Descripción ";
 	private static final String MSG_CATEGORY = "La Categoria ";
+	private static final String MSG_DATE = "La fecha y hora";
 	private static final int MIN_TEXT = 4;
 	private static final int MAX_TEXT_SHORT = 60;
 	private static final int MAX_TEXT_LONG = 200;
@@ -45,7 +46,10 @@ public class TareaValidator {
 	
 	
 	public static LocalDateTime fechaValidator(LocalDateTime fecha) {
-	    
+		if(fecha==null) {
+			throw new IllegalArgumentException(String.format(MSG_DATE,MSG_ERROR_NULL_EMPTY));
+		}
+		
 	    if(fecha.isBefore(LocalDateTime.now())) {
 	    	throw new IllegalArgumentException(MSG_INVALID_DATE_TIME);
 	    }

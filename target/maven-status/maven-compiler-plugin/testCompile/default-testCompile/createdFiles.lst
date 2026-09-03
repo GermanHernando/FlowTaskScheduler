@@ -1,0 +1,4 @@
+ar\task\scheduler\models\test\UsuarioEntityTest.class
+ar\task\scheduler\models\test\CategoriaEntityTest.class
+ar\task\scheduler\helpers\UsuarioHelperTest.class
+ar\task\scheduler\models\test\TareaEntityTest.class

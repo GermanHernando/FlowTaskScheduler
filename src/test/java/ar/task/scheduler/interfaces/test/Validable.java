@@ -1,0 +1,11 @@
+package ar.task.scheduler.interfaces.test;
+
+public interface Validable {
+
+	public static final String VARIABLE_VACIA = "";
+    public static final String VARIABLE_NULL = null;
+    public static final String STRING_MIN_CANT_CARACTERES = "1";
+    public static final String STRING_MAX_CANT_CARACTERES = "123456789123456789123456789123456789123456789123456789123456789123456789";//72 caracteres
+	
+	
+}

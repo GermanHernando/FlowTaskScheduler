@@ -13,8 +13,11 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,10 +28,13 @@ public class Tarea extends Persistible{
 	private String titulo;
 	@Column(name = "DESCRIPCION")
 	private String descripcion;
-	@Column(name = "CATEGORIA_ID")
+	@OneToOne
+	@JoinColumn(name = "CATEGORIA_ID")
 	private Categoria categoria;
 	@Column(name = "FECHA_ASIGNADA")
 	private LocalDateTime fechaAsignada;
+	//TODO RELANZAR DB y hacer DB para test
+	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "ESTADO_ID")
 	private EstadoTarea estado;
 	@ManyToMany(cascade = CascadeType.ALL) 

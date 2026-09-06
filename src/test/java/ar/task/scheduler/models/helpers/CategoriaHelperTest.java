@@ -1,4 +1,4 @@
-package ar.task.scheduler.helpers;
+package ar.task.scheduler.models.helpers;
 
 import ar.task.scheduler.interfaces.test.Validable;
 import ar.task.scheduler.models.Categoria;
@@ -27,7 +27,7 @@ public class CategoriaHelperTest implements Validable {
 	    }
 	    
 	    public static Categoria crearCategoriaNombreMaxCantidadCaracteres() {
-	    	return new Categoria(STRING_MAX_CANT_CARACTERES);
+	    	return new Categoria(STRING_MAX_CANT_CARACTERES_72);
 	    }
 	 
 }

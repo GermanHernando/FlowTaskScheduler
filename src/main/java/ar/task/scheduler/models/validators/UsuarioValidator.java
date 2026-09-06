@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 import ar.task.scheduler.exceptions.QuantityCharactersException;
 import ar.task.scheduler.exceptions.UserEmailException;
 import ar.task.scheduler.exceptions.UserPasswordException;
+import ar.task.scheduler.helpers.validators.QuantityCharacterValidator;
 
 public class UsuarioValidator {
 
@@ -31,8 +32,6 @@ public class UsuarioValidator {
 	private static final int MIN_CANT_CHARACTER_NOMBRE_APELLIDO = 4;
 	private static final int MAX_CANT_CHARACTER_NOMBRE_APELLIDO = 40;
 
-
-
 	public static String emailValidator(String email) throws QuantityCharactersException {
 		if (email == null || email.isBlank()) {
 			throw new UserEmailException(MSJ_ERROR_EMAIL);
@@ -40,17 +39,16 @@ public class UsuarioValidator {
 		if (email.contains(" ")) {
 			throw new UserEmailException(MSJ_ERROR_EMAIL_ESPACIOS);
 		}
-		if (email.length() < MIN_TAMANIO_EMAIL || email.length() > MAX_TAMANIO_EMAIL) {
-			throw new QuantityCharactersException(MIN_TAMANIO_EMAIL, MAX_TAMANIO_EMAIL);
-		}
-
 		if (!validarRegexEmail(email)) {
 			throw new UserEmailException(MSJ_ERROR_VALIDACION_EMAIL);
 		}
+		
+		QuantityCharacterValidator.validadorCantidadCaracteres(email, MIN_TAMANIO_EMAIL, MAX_TAMANIO_EMAIL);
+
 		return email;
 	}
 
-	public static String contraseniaValidator(String contrasenia)throws QuantityCharactersException  {
+	public static String contraseniaValidator(String contrasenia) throws QuantityCharactersException {
 		if (contrasenia == null || contrasenia.isBlank()) {
 			throw new UserPasswordException(MSJ_CONTRASENIA_INVALIDA);
 		}
@@ -69,22 +67,17 @@ public class UsuarioValidator {
 		if (!validarEspecialCharacterContrasenia(contrasenia)) {
 			throw new UserPasswordException(MSJ_ERROR_CONTRASENIA_CHARACTER_ESP);
 		}
-		if (contrasenia.length() < MIN_TAMANIO_CONTRASENIA || contrasenia.length() > MAX_TAMANIO_CONTRASENIA) {
-			throw new QuantityCharactersException(MIN_TAMANIO_CONTRASENIA, MAX_TAMANIO_CONTRASENIA);
-		}
+		QuantityCharacterValidator.validadorCantidadCaracteres(contrasenia, MIN_TAMANIO_CONTRASENIA,
+				MAX_TAMANIO_CONTRASENIA);
 		return contrasenia;
 	}
-	
-	
+
 	public static String nombreValidator(String nombre) throws QuantityCharactersException {
 		if (nombre == null || nombre.isBlank()) {
 			throw new IllegalArgumentException(MSJ_ERROR_NOMBRE);
 		}
-		if (nombre.length() < MIN_CANT_CHARACTER_NOMBRE_APELLIDO
-				|| nombre.length() > MAX_CANT_CHARACTER_NOMBRE_APELLIDO) {
-			throw new QuantityCharactersException(MIN_CANT_CHARACTER_NOMBRE_APELLIDO,
-					MAX_CANT_CHARACTER_NOMBRE_APELLIDO);
-		}
+		QuantityCharacterValidator.validadorCantidadCaracteres(nombre, MIN_CANT_CHARACTER_NOMBRE_APELLIDO,
+				MAX_CANT_CHARACTER_NOMBRE_APELLIDO);
 		return nombre;
 	}
 
@@ -92,11 +85,9 @@ public class UsuarioValidator {
 		if (apellido == null || apellido.isBlank()) {
 			throw new IllegalArgumentException(MSJ_ERROR_APELLIDO);
 		}
-		if (apellido.length() < MIN_CANT_CHARACTER_NOMBRE_APELLIDO
-				|| apellido.length() > MAX_CANT_CHARACTER_NOMBRE_APELLIDO) {
-			throw new QuantityCharactersException(MIN_CANT_CHARACTER_NOMBRE_APELLIDO,
-					MAX_CANT_CHARACTER_NOMBRE_APELLIDO);
-		}
+		
+		QuantityCharacterValidator.validadorCantidadCaracteres(apellido, MIN_CANT_CHARACTER_NOMBRE_APELLIDO,
+				MAX_CANT_CHARACTER_NOMBRE_APELLIDO);
 		return apellido;
 	}
 

@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import ar.task.scheduler.helpers.CategoriaHelperTest;
+import ar.task.scheduler.exceptions.QuantityCharactersException;
+import ar.task.scheduler.models.helpers.CategoriaHelperTest;
 @SpringBootTest
 @ActiveProfiles(value = "test")
 public class CategoriaEntityTest {
@@ -20,22 +21,22 @@ public class CategoriaEntityTest {
 	//NOMBRE INVALIDO
 	@Test
 	public  void testCrearCategoriaVacia() {
-		assertThrows(Exception.class, () -> CategoriaHelperTest.crearCategoriaNombreVacio());
+		assertThrows(IllegalArgumentException.class, () -> CategoriaHelperTest.crearCategoriaNombreVacio());
 	}
 	
 	@Test
 	public  void testCrearCategoriaNombreNulo() {
-		assertThrows(Exception.class, () -> CategoriaHelperTest.crearCategoriaNombreNulo());
+		assertThrows(IllegalArgumentException.class, () -> CategoriaHelperTest.crearCategoriaNombreNulo());
 	}
 	
 	@Test
 	public  void testCrearCategoriaNombreMinCantidadCaracteres() {
-		assertThrows(Exception.class, () -> CategoriaHelperTest.crearCategoriaNombreMinCantidadCaracteres());
+		assertThrows(QuantityCharactersException.class, () -> CategoriaHelperTest.crearCategoriaNombreMinCantidadCaracteres());
 	}
 	
 	@Test
 	public  void testCrearCategoriaNombreMaxCantidadCaracteres() {
-		assertThrows(Exception.class, () -> CategoriaHelperTest.crearCategoriaNombreMaxCantidadCaracteres());
+		assertThrows(QuantityCharactersException.class, () -> CategoriaHelperTest.crearCategoriaNombreMaxCantidadCaracteres());
 	}
 
 }

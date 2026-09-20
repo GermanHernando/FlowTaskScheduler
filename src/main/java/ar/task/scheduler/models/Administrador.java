@@ -9,10 +9,10 @@ import ar.task.scheduler.exceptions.UserNotFoundException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,10 +23,10 @@ public class Administrador extends Usuario {
 	@CollectionTable(name = "LISTAS_ADMINISTRADORES_Y_USUARIOS", joinColumns = @JoinColumn(name = "ADMIN_ID"))
 	@Column(name = "USUARIO_ID")
 	private List<Usuario> usuarios;
-	@ElementCollection(targetClass = Tarea.class)
-	@CollectionTable(name = "TAREAS_GUARDADAS_ADMIN", joinColumns = @JoinColumn(name = "ADMIN_ID"))
-	@Column(name = "TAREA_ID")
-	private List<Tarea> plantillasTareas;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@CollectionTable(name = "PLANTILLAS_GUARDADAS_ADMIN", joinColumns = @JoinColumn(name = "ADMIN_ID"))
+	@Column(name = "PLANTILLA_ID")
+	private List<Plantilla> plantillas;
 
 	Administrador() {
 	}
@@ -39,7 +39,7 @@ public class Administrador extends Usuario {
 	public Administrador(String email, String contrasenia, String nombre, String apellido) {
 		super(email, contrasenia, nombre, apellido);
 		this.usuarios = new ArrayList<Usuario>();
-		this.plantillasTareas = new ArrayList<Tarea>();
+		this.plantillas = new ArrayList<Plantilla>();
 		super.convertirEnAdmin();
 	}
 
@@ -67,57 +67,60 @@ public class Administrador extends Usuario {
 
 	}
 	
-	public void agregarPlantillaTarea(Tarea tarea) {
-		if(tarea!=null) {
-			boolean existe = existePlantillaTarea(tarea);
+	public void agregarPlantilla(Plantilla plantilla) {
+		if(plantilla!=null) {
+			boolean existe = existePlantilla(plantilla);
 			if(existe) {
 				throw new ExistingAddException();
 			}
-			this.plantillasTareas.add(tarea.generarPlantilla());			
+			this.plantillas.add(plantilla);			
 		}
 	}
 	
-	public void agregarPlantillaTarea(String titulo, String descripcion, Categoria categoria) {
-		Tarea t = this.buscarPlantillaTarea(titulo);
-		if(t!=null) {
+	public void agregarPlantilla(String titulo, String descripcion, Categoria categoria) {
+		Plantilla p = this.buscarPlantilla(titulo);
+		if(p!=null) {
 			throw new ExistingAddException();
 		}
-		this.plantillasTareas.add(new Tarea(titulo,descripcion,categoria));
+		this.plantillas.add(new Plantilla(titulo,descripcion,categoria));
 	}
 	
-	private Tarea buscarPlantillaTarea(String titulo) {
-		return plantillasTareas.stream().filter(tarea -> tarea.mismoTitulo(titulo)).findFirst().orElse(null);
+	private Plantilla buscarPlantilla(String titulo) {
+		return plantillas.stream().filter(plantilla -> plantilla.mismoTitulo(titulo)).findFirst().orElse(null);
 	}
 	
-	private boolean existePlantillaTarea(Tarea tarea) {
-		return plantillasTareas.stream().anyMatch(t -> tarea.mismaPlantilla(tarea));
+	private boolean existePlantilla(Plantilla plantilla) {
+		return plantillas.stream().anyMatch(p -> p.mismaPlantilla(plantilla));
 	}
 	
-	public void eliminarPlantillaTarea(String titulo) {
-		Tarea t = this.buscarPlantillaTarea(titulo);
+	public void eliminarPlantilla(String titulo) {
+		Plantilla t = this.buscarPlantilla(titulo);
 		if(t==null) {
 			throw new UnexistingRemoveException();
 		}
-		plantillasTareas.remove(t);
+		plantillas.remove(t);
 	}
 
+	
 	public void agregarTareaAUsuario(String usuarioEmail, Tarea tarea) {
 		Usuario user = this.buscarUsuario(usuarioEmail);
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
-			Tarea plantillaTarea = this.usarPlantillaTarea(tarea);
-			if (plantillaTarea != null) {
-				user.agregarTarea(plantillaTarea);
+			Plantilla pTarea = this.usarPlantillaTarea(tarea);
+			if (pTarea != null) {
+				Tarea nuevaTarea = pTarea.generarTareaDesdePlantilla(); 
+				user.agregarTarea(nuevaTarea);
+				nuevaTarea.agregarResponsable(user);
 			} else {
 				user.agregarTarea(tarea);
+				tarea.agregarResponsable(user);
 			}
-			tarea.agregarResponsable(user);
 		
 	}
 
-	private Tarea usarPlantillaTarea(Tarea tarea) {
-		Tarea t = this.buscarPlantillaTarea(tarea.getTitulo());
+	private Plantilla usarPlantillaTarea(Tarea tarea) {
+		Plantilla t = this.buscarPlantilla(tarea.getTitulo());
 		return t != null ? t : null;
 	}
 

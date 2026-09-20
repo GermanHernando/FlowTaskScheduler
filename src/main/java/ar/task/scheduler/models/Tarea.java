@@ -17,76 +17,37 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TAREAS")
-public class Tarea extends Persistible{
+public class Tarea extends Plantilla {
 
-	@Column(name = "TITULO")
-	private String titulo;
-	@Column(name = "DESCRIPCION")
-	private String descripcion;
-	@OneToOne
-	@JoinColumn(name = "CATEGORIA_ID")
-	private Categoria categoria;
+
 	@Column(name = "FECHA_ASIGNADA")
 	private LocalDateTime fechaAsignada;
-	//TODO RELANZAR DB y hacer DB para test
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "ESTADO_ID")
 	private EstadoTarea estado;
-	@ManyToMany(cascade = CascadeType.ALL) 
+	@ManyToMany(cascade = CascadeType.ALL)
 	@CollectionTable(name = "USUARIOS_TAREAS", joinColumns = @JoinColumn(name = "TAREA_ID"))
 	@Column(name = "USUARIO_ID")
-	private List<Usuario>responsables;
-	
-	Tarea() {}
-	
-	//Admin guarda estas tareas
-	public Tarea(String titulo, String descripcion, Categoria categoria) {
-		this.setTitulo(titulo);
-		this.setDescripcion(descripcion);
-		this.setCategoria(categoria);
+	private List<Usuario> responsables;
+
+	Tarea() {
 	}
-	
-	
+
 	public Tarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
-		this(titulo, descripcion, categoria);
+		super(titulo, descripcion, categoria);
 		this.setFechaAsignada(fechaAsignada);
 		this.estado = EstadoTarea.PENDIENTE;
 		this.responsables = new ArrayList<Usuario>();
 	}
-	
-	
-	public void setTitulo(String titulo) {
-		this.titulo = TareaValidator.tituloValidator(titulo);
-	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = TareaValidator.descripcionValidator(descripcion);
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = TareaValidator.categoriaValidator(categoria);
-	}
-	
 	public void setFechaAsignada(LocalDateTime fechaAsignada) {
 		this.fechaAsignada = TareaValidator.fechaValidator(fechaAsignada);
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
 	
 	public LocalDateTime getFechaAsignada() {
 		return fechaAsignada;
@@ -95,75 +56,60 @@ public class Tarea extends Persistible{
 	public EstadoTarea getEstado() {
 		return estado;
 	}
-	
+
 	public void cambiarEstado() {
-		this.estado = estado == EstadoTarea.PENDIENTE? EstadoTarea.COMPLETADA:EstadoTarea.PENDIENTE;
+		this.estado = estado == EstadoTarea.PENDIENTE ? EstadoTarea.COMPLETADA : EstadoTarea.PENDIENTE;
 	}
-	
+
 	public void completar() {
 		this.estado = EstadoTarea.COMPLETADA;
 	}
-	
+
 	public boolean estaVencida() {
 		return this.fechaAsignada.toLocalDate().isBefore(LocalDate.now());
 	}
-	
-	public boolean mismoTitulo(String titulo) {
-		return this.titulo.equals(titulo);
-	}
 
-	public boolean mismaCategoria(Categoria categoria) {
-		return this.categoria.equals(categoria);
-	}
-	
 	public boolean mismaFecha(LocalDateTime fechaNueva) {
 		return this.fechaAsignada.isEqual(fechaNueva);
 	}
-	
-	public boolean mismaPlantilla(Tarea tarea) {
-		return this.mismoTitulo(tarea.getTitulo())
-				&& this.mismaCategoria(tarea.getCategoria());
-	}
 
 	public boolean mismaTarea(Tarea tarea) {
-		return this.mismaPlantilla(tarea)
-				&& this.mismaFecha(tarea.getFechaAsignada());
+		return mismaPlantilla(tarea) && this.mismaFecha(tarea.getFechaAsignada());
 	}
-	
-	public Tarea generarPlantilla() {
-		return new Tarea(this.titulo,this.descripcion,this.categoria);
+
+	public Plantilla generarPlantilla() {
+		return new Plantilla(getTitulo(), getDescripcion(), getCategoria());
 	}
-	
+
 	public void agregarResponsable(Usuario responsable) {
-		if(responsable!=null) {
+		if (responsable != null) {
 			Usuario user = this.buscarResponsable(responsable.getEmail());
-			if(user!=null) {
+			if (user != null) {
 				throw new ExistingAddException();
 			}
-			this.responsables.add(new Usuario(responsable.getEmail(),responsable.getNombre(),responsable.getApellido()));			
+			this.responsables.add(new Usuario(responsable.getEmail(), responsable.getNombre(), responsable.getApellido()));
 		}
 	}
-	
+
 	private Usuario buscarResponsable(String email) {
-	    return responsables.stream()
-	            .filter(usuario -> usuario.mismoEmail(email))
-	            .findFirst()
-	            .orElse(null);
+		return responsables.stream().filter(usuario -> usuario.mismoEmail(email)).findFirst().orElse(null);
 	}
 
-
 	public void eliminarResponsable(Usuario responsable) {
-		if(responsable!=null) {
+		if (responsable != null) {
 			Usuario user = this.buscarResponsable(responsable.getEmail());
-			if (user==null) {
+			if (user == null) {
 				throw new UnexistingRemoveException();
 			}
 			responsables.remove(user);
-			
+
 		}
-		
+
 	}
 	
-	
-	
+	public boolean existeResponsable(String email) {
+		return this.buscarResponsable(email)!=null; 
+		
+	}
+
 }

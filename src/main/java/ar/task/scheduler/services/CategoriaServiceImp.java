@@ -1,6 +1,5 @@
 package ar.task.scheduler.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.task.scheduler.exceptions.ExistingAddException;
@@ -9,30 +8,32 @@ import ar.task.scheduler.models.Categoria;
 import ar.task.scheduler.repositories.CategoriaRepository;
 
 @Service
-public class CategoriaServiceImp implements CategoriaService {
+public class CategoriaServiceImp extends CRUDServiceImp<Categoria, CategoriaRepository> implements CategoriaService{
 
-	@Autowired
-	private CategoriaRepository categoriaRepository;
 	
-	@Override
 	public Categoria buscarNombreCategoria(String nombre) {
-		return this.categoriaRepository.findByNombre(nombre);
+		return this.repository().findByNombre(nombre);
 	}
 
-	public void agregarCategoria(String nombre) {
-		if(this.buscarNombreCategoria(nombre)!=null) {
+	@Override
+	public void guardar(Categoria entidad) {
+		if(this.buscarNombreCategoria(entidad.getNombre())!=null) {
 			throw new ExistingAddException();
 		}
-		this.categoriaRepository.save(new Categoria(nombre));			
+		this.repository().save(entidad);			
 	}
 	
-	public void eliminarCategoria(String nombre) {
-		Categoria categoria = this.buscarNombreCategoria(nombre);
+	@Override
+	public void eliminar(Categoria entidad) {
+		Categoria categoria = this.buscarNombreCategoria(entidad.getNombre());
 		if(categoria==null) {
 			throw new UnexistingRemoveException();
 		}
-		this.categoriaRepository.delete(categoria);
+		this.repository().delete(categoria);
 	}
+
+	
+
 	
 	
 }

@@ -1,46 +1,54 @@
 package ar.task.scheduler.services;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.task.scheduler.exceptions.ExistingAddException;
-import ar.task.scheduler.exceptions.UnexistingRemoveException;
+import ar.task.scheduler.exceptions.TaskSearchException;
+import ar.task.scheduler.exceptions.UserNotFoundException;
 import ar.task.scheduler.models.Tarea;
-import ar.task.scheduler.repositories.TareaRepository;
+import ar.task.scheduler.models.Usuario;
+import ar.task.scheduler.repositories.UsuarioRepository;
 
 @Service
-public class TareaServiceImp implements TareaService{
+public class TareaServiceImp extends PlantillaServiceImp<Tarea> implements TareaService {
 
-	@Autowired
-	private TareaRepository tareaRepository;
-	
-	@Override
-	public List<Tarea> buscarTarea(String titulo) {
-		return tareaRepository.findByTitulo(titulo);
+	private UsuarioRepository<Usuario> usuarioRepository;
+
+	private boolean tareaTieneElResponsable(Tarea tarea, String email) {
+		Tarea t = this.buscarPorId(tarea.getId());
+		boolean laTiene = false;
+		if (t != null) {
+			laTiene = t.existeResponsable(email);
+		}
+		return laTiene;
 	}
 
 	@Override
-	public void guardarTarea(Tarea tarea) {
-		List<Tarea> listaTareas = this.buscarTarea(tarea.getTitulo());
-		if(!listaTareas.isEmpty() && esTareaExistente(listaTareas, tarea)) {
+	public void agregarResponsableATarea(Tarea tarea, String email) {
+		if (tareaTieneElResponsable(tarea, email)) {
 			throw new ExistingAddException();
 		}
-		this.tareaRepository.save(tarea);
-	}
-	
-	private boolean esTareaExistente(List<Tarea> listaTareas, Tarea tarea) {
-	    return listaTareas.stream().anyMatch(t -> t.mismaTarea(tarea));
+		Usuario u = usuarioRepository.findByEmail(email);
+		if (u == null) {
+			throw new UserNotFoundException();
+		}
+		tarea.agregarResponsable(u);
+		repository().save(tarea);
 	}
 
 	@Override
-	public void eliminarTarea(Tarea tarea) {
-		List<Tarea> listaTareas = this.buscarTarea(tarea.getTitulo());
-		if(tarea!=null && !esTareaExistente(listaTareas, tarea)) {
-			throw new UnexistingRemoveException();
+	public void eliminarResponsableDeTarea(Tarea tarea, String email) {
+		Tarea t = repository().findById(tarea.getId()).orElse(null);
+		if (t == null) {
+			throw new TaskSearchException(false);
 		}
-		this.tareaRepository.delete(tarea);
+		Usuario u = usuarioRepository.findByEmail(email);
+		t.eliminarResponsable(u);
+		repository().save(t);
 	}
+
+	
+
+	
 
 }

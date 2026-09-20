@@ -1,15 +1,11 @@
 package ar.task.scheduler.services;
 
-import java.util.List;
-
 import ar.task.scheduler.models.Tarea;
 
-public interface TareaService {
+public interface TareaService extends PlantillaService<Tarea>{
 	
-	public List<Tarea> buscarTarea(String titulo);
+	public void agregarResponsableATarea(Tarea tarea, String email );
 	
-	public void guardarTarea(Tarea tarea);
-	
-	public void eliminarTarea(Tarea tarea);
+	public void eliminarResponsableDeTarea(Tarea tarea, String email);
 
 }

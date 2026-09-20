@@ -123,16 +123,13 @@ public class Usuario extends Persistible {
 	    return this.tareas.stream().anyMatch(t -> tarea.mismaTarea(tarea));
 	}
 	
-	//Agrega la Tarea para usuario, donde si o si, tiene que tener la tarea una fecha
+	
 	public void agregarTarea(Tarea tarea) {
 		if(tarea!=null) {
-			if(tarea.getFechaAsignada()!=null) {
 				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(), tarea.getFechaAsignada());			
-			}else {
-				this.agregarTarea(tarea.getTitulo(),tarea.getDescripcion(), tarea.getCategoria(),LocalDateTime.now());
 			}
 		}
-	}
+	
 
 	private void agregarTarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
 		Tarea tarea = new Tarea(titulo,descripcion,categoria,fechaAsignada);

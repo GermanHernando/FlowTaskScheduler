@@ -15,6 +15,11 @@ public abstract class CRUDServiceImp <T extends Persistible, R extends BaseRepos
 	}
 	
 	@Override
+	public T buscarPorId(Long id) {
+		return this.repository.findById(id).orElse(null);
+	}
+	
+	@Override
 	public void guardar(T entidad) {
 		this.repository.save(entidad);
 	}

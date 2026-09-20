@@ -15,11 +15,7 @@ public class PlantillaServiceImp <T extends Plantilla> extends CRUDServiceImp<T,
 		return titulo!=null?repository().findByTitulo(titulo):null;
 	}
 	
-	@Override
-	public T buscarPorId(Long id) {
-		return repository().findById(id).orElse(null);
-	}
-
+	
 	@Override
 	public void guardar(T plantilla) {
 		T p = this.buscarPorTitulo(plantilla.getTitulo());

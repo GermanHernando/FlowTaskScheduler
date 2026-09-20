@@ -38,7 +38,7 @@ public class TareaServiceImp extends PlantillaServiceImp<Tarea> implements Tarea
 
 	@Override
 	public void eliminarResponsableDeTarea(Tarea tarea, String email) {
-		Tarea t = repository().findById(tarea.getId()).orElse(null);
+		Tarea t = this.buscarPorId(tarea.getId());
 		if (t == null) {
 			throw new TaskSearchException(false);
 		}

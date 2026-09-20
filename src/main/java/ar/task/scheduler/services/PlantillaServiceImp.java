@@ -12,7 +12,7 @@ public class PlantillaServiceImp <T extends Plantilla> extends CRUDServiceImp<T,
 
 	@Override
 	public T buscarPorTitulo(String titulo) { 
-		return titulo!=null?repository().findByTitulo(titulo):null;
+		return repository().findByTitulo(titulo);
 	}
 	
 	

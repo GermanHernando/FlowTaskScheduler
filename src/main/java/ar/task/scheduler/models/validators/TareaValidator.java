@@ -2,7 +2,7 @@ package ar.task.scheduler.models.validators;
 
 import java.time.LocalDateTime;
 
-public class TareaValidator extends PlantillaValidator {
+public class TareaValidator extends ItemArtifactValidator {
 
 	private static final String MSG_DATE = "La fecha y hora";
 	private static final String MSG_INVALID_DATE_TIME = "La fecha no puede ser anterior a hoy y ahora";

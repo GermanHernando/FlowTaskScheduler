@@ -17,8 +17,6 @@ import ar.task.scheduler.models.helpers.UsuarioHelperTest;
 public class UsuarioEntityTest {
 
 	
-	//FIXME Reveer 2 test que fallan 
-	
 	//VALIDO
 	@Test
 	public  void testCrearUsuarioValidoSinContraseña() {

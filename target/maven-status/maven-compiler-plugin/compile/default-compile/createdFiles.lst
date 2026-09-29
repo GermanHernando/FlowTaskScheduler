@@ -2,9 +2,13 @@ ar\task\scheduler\repositories\CategoriaRepository.class
 ar\task\scheduler\services\AdministradorServiceImp.class
 ar\task\scheduler\exceptions\ListException.class
 ar\task\scheduler\exceptions\UserEmailException.class
+ar\task\scheduler\models\Plantilla.class
 ar\task\scheduler\enums\EstadoTarea.class
 ar\task\scheduler\services\UsuarioServiceImp.class
+ar\task\scheduler\services\PlantillaServiceImp.class
+ar\task\scheduler\services\CRUDService.class
 ar\task\scheduler\exceptions\AdminNotFoundException.class
+ar\task\scheduler\models\validators\PlantillaValidator.class
 ar\task\scheduler\services\TareaServiceImp.class
 ar\task\scheduler\models\validators\CategoriaValidator.class
 ar\task\scheduler\models\Categoria.class
@@ -12,6 +16,7 @@ ar\task\scheduler\exceptions\UserException.class
 ar\task\scheduler\helpers\validators\QuantityCharacterValidator.class
 ar\task\scheduler\repositories\AdministradorRepository.class
 ar\task\scheduler\services\TareaService.class
+ar\task\scheduler\services\CRUDServiceImp.class
 ar\task\scheduler\services\CategoriaServiceImp.class
 ar\task\scheduler\exceptions\UnexistingRemoveException.class
 ar\task\scheduler\models\Persistible.class
@@ -20,8 +25,10 @@ ar\task\scheduler\models\validators\UsuarioValidator.class
 ar\task\scheduler\repositories\UsuarioRepository.class
 ar\task\scheduler\exceptions\TaskSearchException.class
 ar\task\scheduler\services\CategoriaService.class
+ar\task\scheduler\services\PlantillaService.class
 ar\task\scheduler\App.class
 ar\task\scheduler\models\Usuario.class
+ar\task\scheduler\repositories\PlantillaRepository.class
 ar\task\scheduler\services\AdministradorService.class
 ar\task\scheduler\exceptions\QuantityCharactersException.class
 ar\task\scheduler\exceptions\ExistingAddException.class
@@ -29,6 +36,7 @@ ar\task\scheduler\exceptions\UserNotFoundException.class
 ar\task\scheduler\services\UsuarioService.class
 ar\task\scheduler\models\Tarea.class
 ar\task\scheduler\enums\Permiso.class
+ar\task\scheduler\repositories\BaseRepository.class
 ar\task\scheduler\models\validators\TareaValidator.class
 ar\task\scheduler\repositories\TareaRepository.class
 ar\task\scheduler\models\Administrador.class

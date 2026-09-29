@@ -4,7 +4,7 @@ import ar.task.scheduler.exceptions.QuantityCharactersException;
 import ar.task.scheduler.helpers.validators.QuantityCharacterValidator;
 import ar.task.scheduler.models.Categoria;
 
-public class PlantillaValidator {
+public class ItemArtifactValidator {
 
 	protected static final String MSG_ERROR_NULL_EMPTY = "%s no puede ser null o vacio/a";
 	private static final String MSG_TITLE = "El Titulo ";

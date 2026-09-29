@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import ar.task.scheduler.models.Tarea;
 
-@Repository
+@Repository("tareaRepository")
 public interface TareaRepository extends PlantillaRepository<Tarea>{
 
 	

@@ -1,4 +1,13 @@
-C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\helpers\UsuarioHelperTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\interfaces\test\Validable.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\helpers\CategoriaHelperTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\helpers\PlantillaHelperTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\helpers\TareaHelperTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\helpers\UsuarioHelperTest.java
 C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\test\CategoriaEntityTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\test\PlantillaEntityTest.java
 C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\test\TareaEntityTest.java
 C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\models\test\UsuarioEntityTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\services\test\BaseServiceTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\services\test\CategoriaServiceTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\services\test\PlantillaServiceTest.java
+C:\eclipse - workspace\taskscheduler\src\test\java\ar\task\scheduler\services\test\TareaServiceTest.java

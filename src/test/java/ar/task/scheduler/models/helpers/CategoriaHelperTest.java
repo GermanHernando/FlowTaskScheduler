@@ -10,7 +10,7 @@ public class CategoriaHelperTest implements Validable {
 	 private static final String CATEGORIA_VALIDA = "Categoria Valida";
 	
 	 
-	 public static Categoria crearCategoriaValida() {
+	 public static Categoria crearEntidadValida() {
 	        return new Categoria(CATEGORIA_VALIDA);
 	    }
 	 
@@ -27,7 +27,7 @@ public class CategoriaHelperTest implements Validable {
 	    }
 	    
 	    public static Categoria crearCategoriaNombreMaxCantidadCaracteres() {
-	    	return new Categoria(STRING_MAX_CANT_CARACTERES_72);
+	    	return new Categoria(STRING_MAX_CANT_CARACTERES);
 	    }
 	 
 }

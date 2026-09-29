@@ -88,7 +88,7 @@ public class UsuarioHelperTest implements Validable {
     }
     
     public static Usuario crearUsuarioNombreMaxCantidadCaracteres() {
-    	return new Usuario(EMAIL_VALIDO, CONTRASENIA_VALIDA, STRING_MAX_CANT_CARACTERES_72, APELLIDO_VALIDO);
+    	return new Usuario(EMAIL_VALIDO, CONTRASENIA_VALIDA, STRING_MAX_CANT_CARACTERES, APELLIDO_VALIDO);
     }
     
     // APELLIDO INVALIDO
@@ -105,7 +105,7 @@ public class UsuarioHelperTest implements Validable {
     }
     
     public static Usuario crearUsuarioApellidoMaxCantidadCaracteres() {
-    	return new Usuario(EMAIL_VALIDO, CONTRASENIA_VALIDA, NOMBRE_VALIDO, STRING_MAX_CANT_CARACTERES_72);
+    	return new Usuario(EMAIL_VALIDO, CONTRASENIA_VALIDA, NOMBRE_VALIDO, STRING_MAX_CANT_CARACTERES);
     }
     
     

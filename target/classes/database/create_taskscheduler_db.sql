@@ -1,6 +1,6 @@
 create table USUARIOS(
 ID bigint not null AUTO_INCREMENT,
-EMAIL varchar(70) not null,
+EMAIL varchar(70) not null UNIQUE,
 CONTRASENIA varchar(70) not null,
 NOMBRE varchar (70) not null,
 APELLIDO varchar (70) not null,
@@ -35,6 +35,15 @@ NOMBRE varchar(60) not null,
 PRIMARY KEY(ID)
 );
 
+create table PLANTILLAS(
+ID bigint not null AUTO_INCREMENT,
+TITULO varchar(60) not null,
+DESCRIPCION varchar(200) not null,
+CATEGORIA_ID bigint not null,
+PRIMARY KEY(ID)
+);
+alter table PLANTILLAS add constraint PLANT$CAT foreign key (CATEGORIA_ID) references CATEGORIAS(ID);
+
 create table TAREAS(
 ID bigint not null AUTO_INCREMENT,
 TITULO varchar(60) not null,
@@ -45,7 +54,6 @@ ESTADO_ID bigint not null,
 PRIMARY KEY(ID)
 );
 
-alter table TAREAS add constraint TAR$CAT foreign key (CATEGORIA_ID) references CATEGORIAS(ID);
 alter table TAREAS add constraint TAR$EST foreign key (ESTADO_ID) references ESTADOS_TAREAS(ID);
 
 create table USUARIOS_TAREAS(
@@ -57,13 +65,13 @@ alter table USUARIOS_TAREAS add constraint USRTAR$USR foreign key (USUARIO_ID) r
 alter table USUARIOS_TAREAS add constraint USRTAR$TAR foreign key (TAREA_ID) references TAREAS(ID);
 
 
-create table TAREAS_GUARDADAS_ADMIN(
+create table PLANTILLAS_GUARDADAS_ADMIN(
 ADMIN_ID bigint not null,
-TAREA_ID bigint not null,
-PRIMARY KEY(ADMIN_ID,TAREA_ID)
+PLANTILLA_ID bigint not null,
+PRIMARY KEY(ADMIN_ID,PLANTILLA_ID)
 );
-alter table TAREAS_GUARDADAS_ADMIN add constraint TGA$ADM foreign key (ADMIN_ID) references ADMINISTRADORES(ID);
-alter table TAREAS_GUARDADAS_ADMIN add constraint TGA$TAR foreign key (TAREA_ID) references TAREAS(ID);
+alter table PLANTILLAS_GUARDADAS_ADMIN add constraint PGA$ADM foreign key (ADMIN_ID) references ADMINISTRADORES(ID);
+alter table PLANTILLAS_GUARDADAS_ADMIN add constraint PGA$PLANT foreign key (PLANTILLA_ID) references PLANTILLAS(ID);
 
 create table PERMISOS(
 ID int not null,

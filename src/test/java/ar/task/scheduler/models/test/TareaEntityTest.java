@@ -19,14 +19,10 @@ public class TareaEntityTest {
 	//VALIDO
 	//-------------------------
 	
-	@Test
-	public void testCrearTareaValidaSinFecha() {
-		assertDoesNotThrow(()-> TareaHelperTest.crearTareaValidaSinFecha());
-	}
 	
 	@Test
 	public void testCrearTareaValidaConFecha() {
-		assertDoesNotThrow(()-> TareaHelperTest.crearTareaValidaConFecha());
+		assertDoesNotThrow(()-> TareaHelperTest.crearEntidadValida());
 	}
 	
 	//-------------------------

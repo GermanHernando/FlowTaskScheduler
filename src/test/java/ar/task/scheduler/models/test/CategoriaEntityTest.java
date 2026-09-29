@@ -15,7 +15,7 @@ public class CategoriaEntityTest {
 
 	@Test
 	public void testCrearCategoriaValida() {
-		assertDoesNotThrow(()-> CategoriaHelperTest.crearCategoriaValida());
+		assertDoesNotThrow(()-> CategoriaHelperTest.crearEntidadValida());
 	}
 	
 	//NOMBRE INVALIDO

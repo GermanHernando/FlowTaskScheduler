@@ -90,7 +90,7 @@ public class Administrador extends Usuario {
 	}
 	
 	private boolean existePlantilla(Plantilla plantilla) {
-		return plantillas.stream().anyMatch(p -> p.mismaPlantilla(plantilla));
+		return plantillas.stream().anyMatch(p -> p.mismoItem(plantilla));
 	}
 	
 	public void eliminarPlantilla(String titulo) {

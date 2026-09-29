@@ -1,4 +1,13 @@
+ar\task\scheduler\services\test\CategoriaServiceTest.class
+ar\task\scheduler\models\test\PlantillaEntityTest.class
 ar\task\scheduler\models\test\UsuarioEntityTest.class
+ar\task\scheduler\services\test\BaseServiceTest.class
+ar\task\scheduler\models\helpers\PlantillaHelperTest.class
 ar\task\scheduler\models\test\CategoriaEntityTest.class
-ar\task\scheduler\helpers\UsuarioHelperTest.class
+ar\task\scheduler\interfaces\test\Validable.class
+ar\task\scheduler\models\helpers\UsuarioHelperTest.class
 ar\task\scheduler\models\test\TareaEntityTest.class
+ar\task\scheduler\services\test\TareaServiceTest.class
+ar\task\scheduler\models\helpers\TareaHelperTest.class
+ar\task\scheduler\models\helpers\CategoriaHelperTest.class
+ar\task\scheduler\services\test\PlantillaServiceTest.class

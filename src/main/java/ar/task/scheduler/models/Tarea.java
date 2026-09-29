@@ -21,8 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TAREAS")
-public class Tarea extends Plantilla {
-
+public class Tarea extends ItemArtifact {
 
 	@Column(name = "FECHA_ASIGNADA")
 	private LocalDateTime fechaAsignada;
@@ -34,8 +33,7 @@ public class Tarea extends Plantilla {
 	@Column(name = "USUARIO_ID")
 	private List<Usuario> responsables;
 
-	Tarea() {
-	}
+	Tarea() {}
 
 	public Tarea(String titulo, String descripcion, Categoria categoria, LocalDateTime fechaAsignada) {
 		super(titulo, descripcion, categoria);
@@ -74,7 +72,7 @@ public class Tarea extends Plantilla {
 	}
 
 	public boolean mismaTarea(Tarea tarea) {
-		return mismaPlantilla(tarea) && this.mismaFecha(tarea.getFechaAsignada());
+		return mismaTarea(tarea) && this.mismaFecha(tarea.getFechaAsignada());
 	}
 
 	public Plantilla generarPlantilla() {

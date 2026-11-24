@@ -10,11 +10,10 @@ import ar.task.scheduler.models.Usuario;
 import ar.task.scheduler.repositories.UsuarioRepository;
 
 @Service
-public class TareaServiceImp  extends PlantillaServiceImp<Tarea> implements TareaService {
+public class TareaServiceImp extends ItemArtifactServiceImp<Tarea> implements TareaService {
 
-	private UsuarioRepository<Usuario> usuarioRepository;
+	private UsuarioRepository usuarioRepository;
 
-	
 	
 	private boolean tareaTieneElResponsable(Tarea tarea, String email) {
 		Tarea t = this.buscarPorId(tarea.getId());

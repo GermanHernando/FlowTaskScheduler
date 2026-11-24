@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 import ar.task.scheduler.models.Usuario;
 
 @Repository
-public interface UsuarioRepository <T extends Usuario> extends BaseRepository<T>{
+public interface UsuarioRepository extends UserArtifactRepository<Usuario>{
 
 	
-	public T findByEmail (String email);
+	
 	
 	
 }

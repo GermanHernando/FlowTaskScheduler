@@ -4,124 +4,86 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import ar.task.scheduler.exceptions.QuantityCharactersException;
 import ar.task.scheduler.exceptions.UserEmailException;
-import ar.task.scheduler.exceptions.UserPasswordException;
 import ar.task.scheduler.models.helpers.UsuarioHelperTest;
 
-@SpringBootTest
-@ActiveProfiles("test")
-public class UsuarioEntityTest {
+
+public class UsuarioEntityTest extends BaseEntityTest {
 
 	
 	//VALIDO
 	@Test
-	public  void testCrearUsuarioValidoSinContraseña() {
-		assertDoesNotThrow(() -> UsuarioHelperTest.crearUsuarioValidoSinContrasenia());
+	public  void testcrearUserValido() {
+		assertDoesNotThrow(() -> UsuarioHelperTest.crearUserValido());
 	}
 
-	@Test
-	public  void testCrearUsuarioValidoConContraseña() {
-		assertDoesNotThrow(() ->UsuarioHelperTest.crearUsuarioValidoConContrasenia());		
-	}
 	
 	//INVALIDO
 	
 	// EMAIL INVALIDO
 		@Test
-		public  void testCrearUsuarioEmailVacio() {
-			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUsuarioEmailVacio());
+		public  void testcrearUserEmailVacio() {
+			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUserEmailVacio());
 		}
 		
 		@Test
-		public  void testCrearUsuarioEmailNulo() {
-			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUsuarioEmailNulo());
+		public  void testcrearUserEmailNulo() {
+			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUserEmailNulo());
 		}
 		
 		@Test
-		public  void testCrearUsuarioEmailFormatoInvalido() {
-			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUsuarioEmailFormatoInvalido());
+		public  void testcrearUserEmailFormatoInvalido() {
+			assertThrows(UserEmailException.class, () -> UsuarioHelperTest.crearUserEmailFormatoInvalido());
 		}
 		
 		@Test
-		public  void testCrearUsuarioEmailCantCaracteresInvalido() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioEmailCantCaracteresInvalido());
+		public  void testcrearUserEmailCantCaracteresInvalido() {
+			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUserEmailCantCaracteresInvalido());
 		}
 		
-		// CONTRASEÑA INVALIDA
-		@Test
-		public  void testCrearUsuarioContraseniaVacia() {
-			assertThrows(UserPasswordException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaVacia());
-		}
-		
-		@Test
-		public  void testCrearUsuarioContraseniaNula() {
-			assertThrows(UserPasswordException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaNula());
-		}
-		
-		@Test
-		public  void testCrearUsuarioContraseniaCantCaracteresInvalido() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaCantCaracteresInvalido());
-		}
-		
-		@Test
-		public  void testCrearUsuarioContraseniaSinMayuscula() {
-			assertThrows(UserPasswordException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaSinMayuscula());
-		}
-		
-		@Test
-		public  void testCrearUsuarioContraseniaSinNumero() {
-			assertThrows(UserPasswordException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaSinNumero());
-		}
-		
-		@Test
-		public  void testCrearUsuarioContraseniaSinEspecial() {
-			assertThrows(UserPasswordException.class, () -> UsuarioHelperTest.crearUsuarioContraseniaSinEspecial());
-		}
 		
 		// NOMBRE INVALIDO
 		@Test
-		public  void testCrearUsuarioNombreVacio() {
-			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUsuarioNombreVacio());
+		public  void testcrearUserNombreVacio() {
+			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUserNombreVacio());
 		}
 		
 		@Test
-		public  void testCrearUsuarioNombreNulo() {
-			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUsuarioNombreNulo());
+		public  void testcrearUserNombreNulo() {
+			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUserNombreNulo());
 		}
 		
 		@Test
-		public  void testCrearUsuarioNombreMinCantidadCaracteres() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioNombreMinCantidadCaracteres());
+		public  void testcrearUserNombreMinCantidadCaracteres() {
+			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUserNombreMinCantidadCaracteres());
 		}
 		
 		@Test
-		public  void testCrearUsuarioNombreMaxCantidadCaracteres() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioNombreMaxCantidadCaracteres());
+		public  void testcrearUserNombreMaxCantidadCaracteres() {
+			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUserNombreMaxCantidadCaracteres());
 		}
 		
 		// APELLIDO INVALIDO
 		@Test
-		public  void testCrearUsuarioApellidoVacio() {
-			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUsuarioApellidoVacio());
+		public  void testcrearUserApellidoVacio() {
+			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUserApellidoVacio());
 		}
 		
 		@Test
-		public  void testCrearUsuarioApellidoNulo() {
-			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUsuarioApellidoNulo());
+		public  void testcrearUserApellidoNulo() {
+			assertThrows(IllegalArgumentException.class, () -> UsuarioHelperTest.crearUserApellidoNulo());
 		}
 		
 		@Test
-		public  void testCrearUsuarioApellidoMinCantidadCaracteres() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioApellidoMinCantidadCaracteres());
+		public  void testcrearUserApellidoMinCantidadCaracteres() {
+			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUserApellidoMinCantidadCaracteres());
 		}
 		
 		@Test
-		public  void testCrearUsuarioApellidoMaxCantidadCaracteres() {
-			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUsuarioApellidoMaxCantidadCaracteres());
+		public  void testcrearUserApellidoMaxCantidadCaracteres() {
+			assertThrows(QuantityCharactersException.class, () -> UsuarioHelperTest.crearUserApellidoMaxCantidadCaracteres());
 		}
 	
 	

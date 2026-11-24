@@ -1,15 +1,10 @@
 package ar.task.scheduler.models.helpers;
 
-import ar.task.scheduler.interfaces.test.Validable;
-import ar.task.scheduler.models.Categoria;
 import ar.task.scheduler.models.Plantilla;
 
-public class PlantillaHelperTest implements Validable {
+public class PlantillaHelperTest extends ItemArtifactHelperTest{
 
-	protected static final String TITULO_VALIDO = "Plantilla Valida";
-	protected static final String DESCRIPCION_VALIDA = "Esta es una descripción de Plantilla válida";
-	protected static final Categoria CATEGORIA_VALIDA = new Categoria("Categoria Valida");
-
+	
 	// VALIDO
 	public static Plantilla crearEntidadValida() {
 		return new Plantilla(TITULO_VALIDO, DESCRIPCION_VALIDA, CATEGORIA_VALIDA);

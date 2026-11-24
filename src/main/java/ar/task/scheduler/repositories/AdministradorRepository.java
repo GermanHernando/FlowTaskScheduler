@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import ar.task.scheduler.models.Administrador;
 
 @Repository
-public interface AdministradorRepository extends UsuarioRepository<Administrador>{
+public interface AdministradorRepository extends UserArtifactRepository<Administrador>{
 
 }

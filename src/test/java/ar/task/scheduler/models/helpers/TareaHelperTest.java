@@ -4,19 +4,16 @@ import java.time.LocalDateTime;
 
 import ar.task.scheduler.models.Tarea;
 
-public class TareaHelperTest extends PlantillaHelperTest   {
+public class TareaHelperTest extends ItemArtifactHelperTest   {
 
 	
-	private static final LocalDateTime FECHA_VALIDA = LocalDateTime.of(2026, 9, 12, 22, 42, 42);
+	private static final LocalDateTime FECHA_VALIDA = LocalDateTime.of(2027, 10, 1, 22, 42, 42);
 	private static final LocalDateTime FECHA_ANTERIOR_INVALIDA = LocalDateTime.MIN;
-	
-	
 	
 	//VALIDO
 	public static Tarea crearEntidadValida() {
 		return new Tarea(TITULO_VALIDO,DESCRIPCION_VALIDA,CATEGORIA_VALIDA,FECHA_VALIDA);
 	}
-	
 	
 	//INVALIDO
 	

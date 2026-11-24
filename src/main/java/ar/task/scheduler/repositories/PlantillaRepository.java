@@ -4,10 +4,10 @@ import org.springframework.stereotype.Repository;
 
 import ar.task.scheduler.models.Plantilla;
 
-@Repository
-public interface PlantillaRepository <T extends Plantilla> extends BaseRepository<T>{
+@Repository("plantillaRepository")
+public interface PlantillaRepository extends ItemArtifactRepository<Plantilla>{
 
-	public T findByTitulo(String titulo);
+	
 	
 	
 }

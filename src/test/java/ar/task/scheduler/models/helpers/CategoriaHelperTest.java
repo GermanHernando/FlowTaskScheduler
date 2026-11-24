@@ -5,11 +5,8 @@ import ar.task.scheduler.models.Categoria;
 
 public class CategoriaHelperTest implements Validable {
 
-	
-	
 	 private static final String CATEGORIA_VALIDA = "Categoria Valida";
 	
-	 
 	 public static Categoria crearEntidadValida() {
 	        return new Categoria(CATEGORIA_VALIDA);
 	    }

@@ -2,11 +2,8 @@ package ar.task.scheduler.services;
 
 import ar.task.scheduler.models.Plantilla;
 
-public interface PlantillaService <T extends Plantilla> extends CRUDService<T>{
+public interface PlantillaService extends ItemArtifactService<Plantilla>{
 	
-	public T buscarPorTitulo(String titulo);
-	
-	public T buscarPorId(Long id);
 	
 
 }

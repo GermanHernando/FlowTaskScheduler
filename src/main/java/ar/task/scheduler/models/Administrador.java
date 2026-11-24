@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ADMINISTRADORES")
-public class Administrador extends Usuario {
+public class Administrador extends UserArtifact {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@CollectionTable(name = "LISTAS_ADMINISTRADORES_Y_USUARIOS", joinColumns = @JoinColumn(name = "ADMIN_ID"))
@@ -28,8 +28,7 @@ public class Administrador extends Usuario {
 	@Column(name = "PLANTILLA_ID")
 	private List<Plantilla> plantillas;
 
-	Administrador() {
-	}
+	Administrador() {}
 
 	// Para guardar en lista administradores de Usuario
 	public Administrador(String email, String nombre, String apellido) {
@@ -40,17 +39,17 @@ public class Administrador extends Usuario {
 		super(email, contrasenia, nombre, apellido);
 		this.usuarios = new ArrayList<Usuario>();
 		this.plantillas = new ArrayList<Plantilla>();
-		super.convertirEnAdmin();
+		convertirEnAdmin();
 	}
+	
 
 	public void agregarUsuario(String email, String nombre, String apellido) {
 		if (buscarUsuario(email) != null) {
 			throw new ExistingAddException();
 		}
-		//TODO Reveer para eliminar según relación en DB (hacer después de los Tests)
-		//Usuario user = new Usuario(email, nombre, apellido);
-		//user.agregarAdmin();
-		this.usuarios.add(new Usuario(email, nombre, apellido));
+		Usuario user = new Usuario(email, nombre, apellido);
+		user.agregarAdmin(this);
+		this.usuarios.add(user);
 	}
 
 	private Usuario buscarUsuario(String email) {
@@ -62,7 +61,7 @@ public class Administrador extends Usuario {
 		if (user == null) {
 			throw new UnexistingRemoveException();
 		}
-		//user.eliminarAdmin();
+		user.eliminarAdmin(this.getId());
 		usuarios.remove(user);
 
 	}
@@ -132,7 +131,6 @@ public class Administrador extends Usuario {
 			user.eliminarTarea(tarea);
 			tarea.eliminarResponsable(user);
 	}
-	
 	
 
 }

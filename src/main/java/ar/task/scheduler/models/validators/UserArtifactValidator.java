@@ -7,7 +7,7 @@ import ar.task.scheduler.exceptions.UserEmailException;
 import ar.task.scheduler.exceptions.UserPasswordException;
 import ar.task.scheduler.helpers.validators.QuantityCharacterValidator;
 
-public class UsuarioValidator {
+public class UserArtifactValidator {
 
 	private static final Pattern REGEX_EMAIL = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
 	private static final Pattern REGEX_CONTRASENIA_MAYUS = Pattern.compile(".*[A-Z].*");

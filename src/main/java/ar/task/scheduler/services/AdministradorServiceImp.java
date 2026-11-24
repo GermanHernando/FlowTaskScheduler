@@ -8,12 +8,12 @@ import ar.task.scheduler.models.Plantilla;
 import ar.task.scheduler.models.Tarea;
 
 @Service
-public class AdministradorServiceImp extends UsuarioServiceImp<Administrador> implements AdministradorService {
+public class AdministradorServiceImp extends UserArtifactServiceImp<Administrador> implements AdministradorService {
 
 	
 	
 	public void guardarPlantilla(Administrador admin, Plantilla plantilla) {
-		Administrador ad = this.buscarUsuario(admin.getEmail());
+		Administrador ad = this.buscarPorEmail(admin.getEmail());
 		if (ad == null) {
 			throw new AdminNotFoundException();
 		}
@@ -21,8 +21,10 @@ public class AdministradorServiceImp extends UsuarioServiceImp<Administrador> im
 		repository().save(ad);
 	}
 
+	
+
 	public void eliminarPlantilla(Administrador admin, Plantilla plantilla) {
-		Administrador ad = this.buscarUsuario(admin.getEmail());
+		Administrador ad = this.buscarPorEmail(admin.getEmail());
 		if (ad == null) {
 			throw new AdminNotFoundException();
 		}
@@ -31,7 +33,7 @@ public class AdministradorServiceImp extends UsuarioServiceImp<Administrador> im
 	}
 	
 	public void agregarTareaAUsuario(String adminEmail, String usuarioEmail, Tarea tarea) {
-		  Administrador ad = this.buscarUsuario(adminEmail);
+		  Administrador ad = this.buscarPorEmail(adminEmail);
 		    if (ad == null) {
 		        throw new AdminNotFoundException();
 		    }
@@ -41,7 +43,7 @@ public class AdministradorServiceImp extends UsuarioServiceImp<Administrador> im
 	}
 
 	public void eliminarTareaAUsuario(String adminEmail, String usuarioEmail, Tarea tarea) {
-		  Administrador ad = this.buscarUsuario(adminEmail);
+		  Administrador ad = this.buscarPorEmail(adminEmail);
 		    if (ad == null) {
 		        throw new AdminNotFoundException();
 		    }

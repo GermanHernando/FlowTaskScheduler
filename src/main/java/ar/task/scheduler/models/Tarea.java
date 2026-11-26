@@ -85,7 +85,7 @@ public class Tarea extends ItemArtifact {
 			if (user != null) {
 				throw new ExistingAddException();
 			}
-			this.responsables.add(new Usuario(responsable.getEmail(), responsable.getNombre(), responsable.getApellido()));
+			this.responsables.add(new Usuario(responsable.getEmail(), responsable.getContrasenia(), responsable.getNombre(), responsable.getApellido()));
 		}
 	}
 

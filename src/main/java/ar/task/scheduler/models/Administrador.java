@@ -30,11 +30,7 @@ public class Administrador extends UserArtifact {
 
 	Administrador() {}
 
-	// Para guardar en lista administradores de Usuario
-	public Administrador(String email, String nombre, String apellido) {
-		super(email, nombre, apellido);
-	}
-
+	
 	public Administrador(String email, String contrasenia, String nombre, String apellido) {
 		super(email, contrasenia, nombre, apellido);
 		this.usuarios = new ArrayList<Usuario>();
@@ -43,11 +39,11 @@ public class Administrador extends UserArtifact {
 	}
 	
 
-	public void agregarUsuario(String email, String nombre, String apellido) {
+	public void agregarUsuario(String email,String contrasenia, String nombre, String apellido) {
 		if (buscarUsuario(email) != null) {
 			throw new ExistingAddException();
 		}
-		Usuario user = new Usuario(email, nombre, apellido);
+		Usuario user = new Usuario(email, contrasenia, nombre, apellido );
 		user.agregarAdmin(this);
 		this.usuarios.add(user);
 	}

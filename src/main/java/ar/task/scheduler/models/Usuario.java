@@ -10,15 +10,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "USUARIOS")
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario extends UserArtifact {
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -32,13 +29,14 @@ public class Usuario extends UserArtifact {
 
 	Usuario() {}
 
-	// Guardar usuarios para envio de tareas
-	public Usuario(String email, String nombre, String apellido) {
-		super(email, nombre, apellido);
+	
+	public Usuario(String email,String contrasenia, String nombre, String apellido) {
+		super(email,contrasenia, nombre, apellido);
 		this.tareas = new ArrayList<Tarea>();
 		this.administradores = new ArrayList<Administrador>();
 		convertirEnEmpleado();
 	}
+	
 	
 	public boolean tieneLaTarea(Tarea tarea) {
 	    return this.tareas.stream().anyMatch(t -> tarea.mismaTarea(tarea));

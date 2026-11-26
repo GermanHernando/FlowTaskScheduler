@@ -14,12 +14,17 @@ import ar.task.scheduler.models.validators.UserArtifactValidator;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
 
-@MappedSuperclass
+@Entity
+@Table(name = "USERS_ARTIFACTS")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class UserArtifact extends Persistible {
 
 	@Column(name = "EMAIL", unique = true, nullable = false)
@@ -36,19 +41,21 @@ public abstract class UserArtifact extends Persistible {
 	@Column(name = "PERMISO_ID")
 	private List<Permiso> permisos;
 
-	UserArtifact() {
-	}
+	UserArtifact() {}
 
-	public UserArtifact(String email, String nombre, String apellido) {
+// TODO HACER USUARIO-DTO
+//	public UserArtifact(String email, String nombre, String apellido) {
+//		this.setEmail(email);
+//		this.setNombre(nombre);
+//		this.setApellido(apellido);
+//	}
+
+	public UserArtifact(String email, String contrasenia, String nombre, String apellido) {
 		this.setEmail(email);
+		this.setContrasenia(contrasenia);
 		this.setNombre(nombre);
 		this.setApellido(apellido);
 		this.permisos = new ArrayList<Permiso>();
-	}
-
-	public UserArtifact(String email, String contrasenia, String nombre, String apellido) {
-		this(email, nombre, apellido);
-		this.setContrasenia(contrasenia);
 	}
 
 	protected void convertirEnEmpleado() {

@@ -3,11 +3,16 @@ package ar.task.scheduler.models;
 import ar.task.scheduler.models.validators.ItemArtifactValidator;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
-@MappedSuperclass
+@Entity
+@Table(name = "ITEMS_ARTIFACTS")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class ItemArtifact extends Persistible {
 
 	@Column(name = "TITULO")

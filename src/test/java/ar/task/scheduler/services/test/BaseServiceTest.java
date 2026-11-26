@@ -14,20 +14,19 @@ public abstract class BaseServiceTest <T extends Persistible, S extends CRUDServ
 
 	@Autowired
 	private S servicio;
+	T entidad = crearEntidadValida();
+	
+	protected abstract T crearEntidadValida();
 	
 	@Test
 	public void testGuardarEntidadExitosamente() {
-		T entidad = crearEntidadValida();
 		this.servicio.guardar(entidad);
 	}
 	
 	@Test
 	public void testEliminarEntidadExitosamente() {
-		T entidad = crearEntidadValida();
-		this.servicio.guardar(entidad);
 		this.servicio.eliminar(entidad);
 	}
 	
-	protected abstract T crearEntidadValida();
 	
 }
